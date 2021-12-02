@@ -41,4 +41,25 @@ docker cp testrows.avro pulsar:/pulsar
 
    docker exec -it pulsar /bin/bash
    
+   
+   docker cp chat-1.0.jar pulsar:/pulsar/
+
+docker exec -it pulsar /pulsar/bin/pulsar-admin functions delete --name Chat --namespace default --tenant public
+
+docker exec -it pulsar /pulsar/bin/pulsar-admin topics create persistent://public/default/chat
+
+docker exec -it pulsar /pulsar/bin/pulsar-admin topics create persistent://public/default/chatresult
+
+docker exec -it pulsar /pulsar/bin/pulsar-admin topics create persistent://public/default/chatlog
+
+docker exec -it pulsar /pulsar/bin/pulsar-admin topics create persistent://public/default/chatdead
+
+docker exec -it pulsar /pulsar/bin/pulsar-admin functions create --auto-ack true --jar /pulsar/chat-1.0.jar --classname "dev.pulsarfunction.chat.ChatFunction" --dead-letter-topic "persistent://public/default/chatdead" --inputs "persistent://public/default/chat" --log-topic "persistent://public/default/chatlog" --name Chat --namespace default --output "persistent://public/default/chatresult" --tenant public --max-message-retries 5
+
+docker exec -it pulsar /pulsar/bin/pulsar-admin functions get --tenant public --namespace default --name Chat
+
+docker exec -it pulsar /pulsar/bin/pulsar-admin topics list public/default
+
+docker run -d -p 6650:6650 -p 8080:8080 -v $PWD/data:/pulsar/data --name pulsar apachepulsar/pulsar-standalone
+
    ````
