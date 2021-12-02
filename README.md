@@ -1,7 +1,7 @@
 # FLiP-PulsarPostgresqlDebugging
 
 on the docker node
-
+````
 
     3  bin/pulsar-admin schemas upload pulsar-postgres-jdbc-sink-topic -f ./connectors/avro-schema
     4  bin/pulsar-admin schemas get pulsar-postgres-jdbc-sink-topic
@@ -39,4 +39,6 @@ docker cp avro-tools-1.11.0.jar pulsar:/pulsar
 docker cp testrows.avro pulsar:/pulsar
 
 
+   docker exec -it pulsar /bin/bash
    
+   ````
