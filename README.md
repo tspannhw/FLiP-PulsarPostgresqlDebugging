@@ -32,4 +32,11 @@ on the docker node
    29  history
    30  bin/pulsar-client produce -f testrows.avro pulsar-postgres-jdbc-sink-topic
    
+   docker exec -it pulsar /pulsar/bin/pulsar-client consume "persistent://public/default/pulsar-postgres-jdbc-sink-topic" -s "tim" -n 0
+   docker cp pulsar/connectors/avro-schema pulsar:/pulsar/connectors
+docker cp pulsar/connectors/pulsar-postgres-jdbc-sink.yaml pulsar:/pulsar/connectors
+docker cp avro-tools-1.11.0.jar pulsar:/pulsar
+docker cp testrows.avro pulsar:/pulsar
+
+
    
